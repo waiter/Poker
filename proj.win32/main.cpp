@@ -16,6 +16,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     AppDelegate app;
     CCEGLView* eglView = CCEGLView::sharedOpenGLView();
     eglView->setViewName("pocker");
-    eglView->setFrameSize(480, 320);
+    eglView->setFrameSize(854, 480);
     return CCApplication::sharedApplication()->run();
 }

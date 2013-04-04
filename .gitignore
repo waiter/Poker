@@ -43,6 +43,7 @@ local.properties
 
 # Build results
 [Dd]ebug/
+[Dd]ebug.win32/
 [Rr]elease/
 *_i.c
 *_p.c
