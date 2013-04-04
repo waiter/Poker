@@ -10,6 +10,9 @@
     <Filter Include="Classes\util">
       <UniqueIdentifier>{090caf55-d161-47d9-a9e7-7604789cda25}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\ai">
+      <UniqueIdentifier>{4448c7e2-4921-48cd-81a4-aaecdfada2e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -24,6 +27,12 @@
     <ClCompile Include="..\Classes\util\Button.cpp">
       <Filter>Classes\util</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ai\AI.cpp">
+      <Filter>Classes\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Constant.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -37,6 +46,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\util\Button.h">
       <Filter>Classes\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ai\AI.h">
+      <Filter>Classes\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Constant.h">
+      <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
