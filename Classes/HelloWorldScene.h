@@ -15,6 +15,8 @@ public:
     CREATE_FUNC(HelloWorld);
 private:
 	cocos2d::CCSprite* _poker[52];
+	cocos2d::CCSprite* _pokerBack[3];
+	cocos2d::CCLabelTTF* _pokerCount[3];
 	cocos2d::CCLabelTTF* _whosTurn;
 	cocos2d::CCSprite* _actionPoker;
 
@@ -23,13 +25,15 @@ private:
 
 	int _currentSelect;
 	bool _isActived[13];
-	int _allPoker[52];
+	int _userPoker[13];
 	int _needToShowCard;
 	int _currentPlayer;
 
 	void menuCloseCallback(cocos2d::CCObject* pSender);
 	void pokerCallBack(cocos2d::CCObject* pSender);
 	void moveEndCallBack();
+
+	void show7();
 };
 
 #endif // __HELLOWORLD_SCENE_H__

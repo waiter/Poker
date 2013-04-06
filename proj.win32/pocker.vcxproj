@@ -122,6 +122,7 @@
     <ClCompile Include="..\Classes\ai\AI.cpp" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\Constant.cpp" />
+    <ClCompile Include="..\Classes\GameCenter.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\util\Button.cpp" />
     <ClCompile Include="main.cpp" />
@@ -130,6 +131,7 @@
     <ClInclude Include="..\Classes\ai\AI.h" />
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\Constant.h" />
+    <ClInclude Include="..\Classes\GameCenter.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\util\Button.h" />
     <ClInclude Include="main.h" />

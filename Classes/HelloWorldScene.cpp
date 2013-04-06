@@ -1,6 +1,7 @@
 #include "HelloWorldScene.h"
 #include "util/Button.h"
 #include "ai/AI.h"
+#include "GameCenter.h"
 USING_NS_CC;
 
 CCScene* HelloWorld::scene()
@@ -35,40 +36,15 @@ bool HelloWorld::init()
 		pMenu->setPosition(CCPointZero);
 		this->addChild(pMenu, 1);
 
-		for(int i = 0 ; i < 52 ; i++){
-			_allPoker[i] = i;
-		}
-		for(int j = 0 ; j < 20 ; j++){
-			for(int i = 0 ; i < 52 ; i++){
-				int temp = _allPoker[i];
-				int rdI = (int)(52.0f * rand() / (RAND_MAX + 1.0f)) ;
-				if(rdI != i){
-					_allPoker[i] = _allPoker[rdI];
-					_allPoker[rdI] = temp;
-				}
-			}
-		}
-		for(int j = 0 ; j < 4 ; j++){
-			for(int i = 0 ; i < 13 ; i++){
-				for(int z = i + 1; z < 13 ; z++){
-					if(_allPoker[i + j * 13] > _allPoker[z + j * 13]){
-						int temp = _allPoker[i + j * 13];
-						_allPoker[i + j * 13] = _allPoker[z + j * 13];
-						_allPoker[z + j * 13] = temp;
-					}
-				}
-			}
-		}
+		GameCenter::sharedGameCenter()->shuffle();
+
 		for(int i = 0 ; i < 3 ; i++){
 			_ais[i] = new AI();
-			std::vector<int> temp;
-			for(int j = 0 ; j < 13 ; j++){
-				temp.push_back(_allPoker[j + (i + 1) * 13]);
-			}
-			_ais[i]->resetWithPoker(temp);
+			_ais[i]->resetWithPoker(GameCenter::sharedGameCenter()->getPlayerPoker(i + 1));
 		}
 
-		CCSpriteBatchNode* bn = CCSpriteBatchNode::create("poker.png" , 52 + 13 + 1);
+		CCSpriteBatchNode* bn = CCSpriteBatchNode::create("poker.png" , 52 + 13 + 1 + 3);
+		addChild(bn);
 		for(int i = 0 ; i < 52 ; i++){
 			sprintf(s , "pc_%d.png" , i+1);
 			_poker[i] = CCSprite::createWithSpriteFrameName(s);
@@ -78,10 +54,24 @@ bool HelloWorld::init()
 
 			_poker[i]->setVisible(false);
 		}
-		addChild(bn);
+		for(int i = 0 ; i < 3 ; i++){
+			_pokerBack[i] = CCSprite::createWithSpriteFrameName("pc_0.png");
+			_pokerBack[i]->setPosition(ccp(30 + 730 * (int)(i / 2) , 190 + 150 * (int)((i+1) / 2)));
+			_pokerBack[i]->setScale(0.5f);
+			bn->addChild(_pokerBack[i]);
+			_pokerBack[i]->retain();
 
+			_pokerCount[i] = CCLabelTTF::create("X13","default",35);
+			_pokerCount[i]->setAnchorPoint(ccp(0,0.5f));
+			_pokerCount[i]->setPosition(ccpAdd(_pokerBack[i]->getPosition(),ccp(30,0)));
+			addChild(_pokerCount[i]);
+			_pokerCount[i]->retain();
+		}
+
+		std::vector<int> userp = GameCenter::sharedGameCenter()->getPlayerPoker(0);
 		for(int  i = 0 ; i < 13 ; i++){
-			sprintf(s , "pc_%d.png" , _allPoker[i] + 1);
+			_userPoker[i] = userp.at(i);
+			sprintf(s , "pc_%d.png" , _userPoker[i] + 1);
 			_selfPoker[i] = Button::create(cache->spriteFrameByName(s),this,menu_selector(HelloWorld::pokerCallBack));
 			_selfPoker[i]->setPosition(ccp(60 + 50 * (i % 13) , 30 ));
 			bn->addChild(_selfPoker[i] , 3 + i);
@@ -117,7 +107,7 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
 
 HelloWorld::HelloWorld()
 	:_currentSelect(-1)
-	,_currentPlayer(0)
+	,_currentPlayer(-1)
 	,_needToShowCard(0)
 	,_whosTurn(NULL)
 	,_actionPoker(NULL)
@@ -135,6 +125,8 @@ HelloWorld::~HelloWorld()
 	}
 	for(int i = 0 ; i < 3 ; i++){
 		CC_SAFE_DELETE(_ais[i]);
+		CC_SAFE_RELEASE_NULL(_pokerBack[i]);
+		CC_SAFE_RELEASE_NULL(_pokerCount[i]);
 	}
 	CC_SAFE_RELEASE_NULL(_whosTurn);
 	CC_SAFE_RELEASE_NULL(_actionPoker);
@@ -148,7 +140,7 @@ void HelloWorld::pokerCallBack( cocos2d::CCObject* pSender )
 		if(!_isActived[index]){
 			if(_currentSelect == index){
 				_currentPlayer++;
-				_needToShowCard = _allPoker[index];
+				_needToShowCard = _userPoker[index];
 				_isActived[index] = true;
 				_selfPoker[index]->setEnabled(false);
 				_selfPoker[index]->stopAllActions();
@@ -207,4 +199,9 @@ void HelloWorld::moveEndCallBack()
 			_currentPlayer++;
 		}
 	}
+}
+
+void HelloWorld::show7()
+{
+
 }

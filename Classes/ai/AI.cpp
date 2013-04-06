@@ -32,21 +32,21 @@ int AI::thisTimePoker()
 			}
 		}
 	}
-	//if(can.empty()){
-	//	p_skipCount++;
-	//}else{
-	//	int size = can.size();
-	//	int now = 0;
-	//	if(size > 1){
-	//		now = (int)(1.0f * size * rand() / (RAND_MAX + 1.0f));
-	//	}
-	//	re = p_allPoker.at(can.at(now));
-	//	p_allPoker.erase(can.at(now) + p_allPoker.begin());
-	//}
+	if(can.empty()){
+		p_skipCount++;
+	}else{
+		int size = can.size();
+		int now = 0;
+		if(size > 1){
+			now = (int)(1.0f * size * rand() / (RAND_MAX + 1.0f));
+		}
+		re = p_allPoker.at(can.at(now));
+		p_allPoker.erase(can.at(now) + p_allPoker.begin());
+	}
 
-	int now = (int)(1.0f * ls *rand() / (RAND_MAX + 1.0f) );
-		re = p_allPoker.at(now);
-		p_allPoker.erase(now + p_allPoker.begin());
+	//int now = (int)(1.0f * ls *rand() / (RAND_MAX + 1.0f) );
+	//	re = p_allPoker.at(now);
+	//	p_allPoker.erase(now + p_allPoker.begin());
 
 	return re;
 }
